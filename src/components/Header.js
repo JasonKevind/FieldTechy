@@ -17,13 +17,9 @@ export const Header=()=>{
             </div>
        </div> 
        <div>
-            <div>
-                <button className='bt' id='hiretech' onClick={(e)=>{e.preventDefault();nav("/Register",{state:{"tech":"1"}})}} >Hire a Tech</button>
-                <button className='bt' onClick={(e)=>{e.preventDefault();nav("/Register",{state:{"hire":"1"}})}}>Register as a tech</button>
-            </div>
-            <div style={{color:"whitesmoke"}}>
-                <button className='bt' id="b1">Login</button> <span style={{transform:"scaleY(1.4)"}}>|</span> 
-                <button className='bt' id="b2">Register</button>
+            
+            <div style={{color:"whitesmoke",display:"flex",justifyContent:"center",width:"100%"}}>
+                <button className='bt' id="b1">Login</button>
             </div>
        </div>
     </div>)

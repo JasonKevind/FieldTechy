@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Swipe } from './Swipe';
 import { WhyUs } from './WhyUs';
-import { MapContainer, TileLayer, Popup, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, Popup, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '../MyMap.css';
-import {useLocation} from 'react-router-dom';
+import {useLocation,useNavigate} from 'react-router-dom';
 import mapData from "../data/countries.json";
 import countries from "../data/datum.json";
 import { Process } from './Process';
@@ -24,6 +24,7 @@ export const Home=(props)=> {
   "Penetration Testing":["Continuous Security Testing","External Penetration Testing","Remote Working Penetration","Testing","Dynamic Penetration Testing","Infrastructure Penetration Testing"],
   "Compliance":["Cyber Essentials Plus","Cyber Essentials","GDPR","HIPAA","ISO 27001","PCI DSS"]
 }
+const nav=useNavigate();
 const services=props.services;
 const [service,setService]=useState("IT Services");
 const [pos,setPos]=useState(null);
@@ -51,77 +52,26 @@ const handleCountrySelect = (event) => {
 },[loc.pathname])
   return (
     <div className="App">
-        {/*Description on how to use selectors and map*/}
-        <div >
-            <small>You can <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>click on a country</span> to look at the number of people who have registered from that particular location.<br></br>You can also use the two menus below to <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>FILTER ACCOURDINGLY</span></small>
-        </div>
-        {/*Selectors*/}
-        <div id="selectors">
-            
-            <div>
-                <select onChangeCapture={handleCountrySelect}>
-                    <option value="">Select a country</option>
-                    {countryOptions.map((country) => (
-                        (country.label!=="Antarctica")?
-                        <option key={country.value} value={country.value}>
-                        {country.label}
-                    </option>:null
-                ))}
-                </select>
-            </div>
-            
-            <div>
-                <select onChangeCapture={(e)=>{setPos(e.target.value);}}>
-                    <option value="">Select a service</option>
-                    {services.map((servic) => (
-                        <option key={servic} value={servic}>
-                        {servic}
-                    </option>
-                ))}
-                </select>
-            </div>
-      </div>
-      {/*Map*/}
-      <div style={{display:'flex',justifyContent:'center',background:'transparent'}}>
-      <MapContainer
-        whenCreated={(map) => {
-          mapRef.current = map;
-        }}
-        style={{ height: '375px',width:"600px" }}
-        center={MAP_CENTER}
-        zoom={DEFAULT_ZOOM}
-        maxBounds={[
-            [190, -180], // Top-left corner (latitude, longitude)
-            [-90, 180], // Bottom-right corner (latitude, longitude)
-          ]}
-      >
-        <TileLayer noWrap id='tc'
-          attribution='© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          
-        />
-        {/* Render the selected country's marker and popup */}
-        {pos && selectedCountry && (
-            <Popup  position={getCoordinatesForCountry(selectedCountry)}>{""+(Math.abs(Math.round(latlng[selectedCountry][0])-(Math.ceil(pos.length/2))))}</Popup>
-        )}
-        <GeoJSON style={{color:"#09152F",fillOpacity:1,fillColor:"#0F5F4B"}} data={mapData.features} onEachFeature={(feature,layer)=>{
-            layer.on({mousedown:(event)=>{
-                layer.bindPopup(""+(2*(1+Math.abs(Math.round(latlng[feature.id][0])))))
-            }})
-           
-        }}>
-        </GeoJSON>
-      </MapContainer>
-      </div>
-      {/*The part which shows two divs on why to choose*/}
-      <div style={{height:"clamp(100px,11vh,160px)",alignItems:"center",justifyContent:"center"}}>
-          <Heading topic={"How can you be benefited? / Why to choose us?"} />
-      </div>
-      <div>
-        <WhyUs/>
-      </div>
-      {/*Services offered*/}
-      <div style={{gap:20,display:'flex',flexDirection:'column',height:"clamp(350px,40vh,480px)"}} >
+       <div style={{position:"relative",height:"200px"}}>
+       <div class="custom-shape-divider-top-1712838020">
+       <p>
+         Requiring an engineer? IN need of a job?
+         <br></br>
+         We can make it easy.
+         <br></br>
+         <button id="hiretech" onClick={(e)=>{e.preventDefault();nav("/Register",{state:{"tech":"1"}});}}>Hire an engineer</button> <button onClick={(e)=>{e.preventDefault();nav("/Register",{state:{"nope":"1"}})}}  style={{cursor:"pointer",border:"1px solid whitesmoke",paddingBlock:7.5,paddingInline:10}}>Find a job</button>
+       </p>
+       
+
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill">   
+        </path>
+
+    </svg>
+</div> 
+       </div>
+       {/*Services offered*/}
+       <div style={{gap:20,display:'flex',flexDirection:'column',height:"clamp(350px,40vh,480px)"}} >
             <div style={{gap:20,display:'flex',flexDirection:'column'}}>
                 <Heading topic={"Services we offer"} />
                 <div style={{display:"flex",height:"105px",width:'100%',flexDirection:'column'}}>
@@ -143,6 +93,72 @@ const handleCountrySelect = (event) => {
                 </div>    
             </div>   
         </div>
+     
+
+      {/*Map*/}
+      <div style={{display:'flex',justifyContent:'center',flexDirection:"column",justifyContent:"center",alignItems:"center",}}>
+      <div style={{height:"370px",display:"flex",flexDirection:"column",margin:0,padding:0,justifyContent:"center",alignItems:"center"}}>
+      <div style={{display:"flex",justifyContent:"space-around",position:"relative",top:"3.5vh",zIndex:1000,gap:20,margin:0,padding:0,}}>
+      <div style={{zIndex:1000,padding:0,margin:0}}>
+                <select style={{zIndex:100}} onChangeCapture={handleCountrySelect}>
+                    <option value="">Select a country</option>
+                    {countryOptions.map((country) => (
+                        (country.label!=="Antarctica")?
+                        <option key={country.value} value={country.value}>
+                        {country.label}
+                    </option>:null
+                ))}
+                </select>
+            </div>
+            
+            <div style={{zIndex:1000}}>
+                <select onChangeCapture={(e)=>{setPos(e.target.value);}}>
+                    <option value="">Select a service</option>
+                    {services.map((servic) => (
+                        <option key={servic} value={servic}>
+                        {servic}
+                    </option>
+                ))}
+                </select>
+            </div>
+            </div>
+      <MapContainer
+        whenCreated={(map) => {
+          mapRef.current = map;
+        }}
+        style={{zIndex:1, height: '370px',width:"600px",padding:0,margin:0 }}
+        center={MAP_CENTER}
+        zoom={DEFAULT_ZOOM}
+        maxBounds={[
+            [190, -180], // Top-left corner (latitude, longitude)
+            [-90, 180], // Bottom-right corner (latitude, longitude)
+          ]}
+      >
+        <TileLayer noWrap id="tc"  
+          attribution='© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          
+        />
+        {/* Render the selected country's marker and popup */}
+        {pos && selectedCountry && (
+            <Popup  position={getCoordinatesForCountry(selectedCountry)}>{""+(Math.abs(Math.round(latlng[selectedCountry][0])-(Math.ceil(pos.length/2))))}</Popup>
+        )}
+        <GeoJSON style={{color:"transparent",fillOpacity:0,fillColor:"tranparent"}} data={mapData.features} onEachFeature={(feature,layer)=>{
+            layer.on({mousedown:(event)=>{
+                layer.bindPopup(""+(2*(1+Math.abs(Math.round(latlng[feature.id][0])))))
+            }})
+           
+        }}>
+          
+        </GeoJSON>
+      </MapContainer>
+      </div>
+      </div>
+      
+       {/*Description on how to use selectors and map*/}
+      <div style={{justifyContent:"center",textAlign:"center"}}>
+          <small>You can <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>click on a country</span> to look at the number of people who have registered from that particular location.<br></br>You can also use the two menus below to <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>FILTER ACCOURDINGLY</span></small>
+      </div>
         {/*Processes to hire a tech person*/}
         <div style={{height:"clamp(100px,11vh,160px)",alignItems:"center",justifyContent:"center"}}>
                     <Heading topic={"Processes for Companies/Business Owners"} />
@@ -150,6 +166,14 @@ const handleCountrySelect = (event) => {
         <div>
             <Process />
         </div>
+      {/*The part which shows two divs on why to choose*/}
+      <div style={{height:"clamp(100px,11vh,160px)",alignItems:"center",justifyContent:"center"}}>
+          <Heading topic={"How can you be benefited? / Why to choose us?"} />
+      </div>
+      <div>
+        <WhyUs/>
+      </div>
+      
         {/*Form to post a job*/}
         <div className='register'>
                     <div style={{display:"flex",}}>

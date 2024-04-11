@@ -1,2 +1,2 @@
-.leaflet-container{height: 100%;width:100vw;padding:0;margin: 0;background-color:#0F5F4B;}
-.leaflet-popup-content{font-size: large;font-weight: 600;color: #0F5F4B;display: flex;justify-content: center;}    
+.leaflet-container{width:50%;padding:0;margin: 0;z-index: 1;padding: 0;height: fit-content;}
+.leaflet-popup-content{font-size: large;font-weight: 600;display: flex;justify-content: center;color: #0F5F4B;}    
