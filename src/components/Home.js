@@ -157,7 +157,7 @@ const handleCountrySelect = (event) => {
       
        {/*Description on how to use selectors and map*/}
       <div style={{justifyContent:"center",textAlign:"center"}}>
-          <small>You can <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>click on a country</span> to look at the number of people who have registered from that particular location.<br></br>You can also use the two menus below to <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>FILTER ACCOURDINGLY</span></small>
+          <small>You can <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>click on a country</span> to look at the number of people who have registered from that particular location.<br></br>You can also use the two menus on top of map to <span style={{fontWeight:700,color:"#0F5F4B",fontSize:17.5}}>FILTER ACCOURDINGLY</span></small>
       </div>
         {/*Processes to hire a tech person*/}
         <div style={{height:"clamp(100px,11vh,160px)",alignItems:"center",justifyContent:"center"}}>
